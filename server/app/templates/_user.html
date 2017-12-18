@@ -1,0 +1,50 @@
+<ul class="posts">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    {% if users %}
+    {% for user in users %}
+    <li class="post row">
+        <div class="visible-lg visible-md col-md-3">
+            <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=196) }}" >
+        </div>
+        <div class="col-md-4" >
+            <h1>
+                <a href="{{ url_for('.user', username=user.username) }}">
+                    {% if user.name %} {{ user.name }} {% else %} {{ user.username }} {% endif %}
+                </a>
+            </h1>
+            <p>
+                {% if user.location %}
+                    From <a href="http://maps.google.com/?q={{ user.location }}">{{ user.location }}</a><br>
+                {% endif %}
+            </p>
+            {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+            <p>Member since {{ moment(user.member_since).format('L') }}. Last seen {{ moment(user.last_seen).fromNow() }}.</p>
+        </div>
+        <div class="col-md-5" >
+            <div id={{user.username}} style="height:200px; width: 100%; "></div>
+        </div>
+    </li>
+    {% endfor %}
+    {% endif %}
+    {% if restaurants %}
+    {% for restaurant in restaurants %}
+    <li class="post row">
+        <div class="col-md-12" >
+            <h1>
+                {% if restaurant.name %} {{ restaurant.name }} {% else %} {{ restaurant.business_id }} {% endif %}
+            </h1>
+            <p>
+                {% if restaurant.address %}
+                    Location: <a href="http://maps.google.com/?q={{ restaurant.address }}" + ',Las Vegas, NV'>{{ restaurant.address }}</a><br>
+                {% endif %}
+            </p>
+            <p>stars: {{ restaurant.stars }} based on {{ restaurant.review_counts }} reviews</p>
+        </div>
+    </li>
+    {% endfor %}
+    {% endif %}
+
+    <!-- self.lat = restaurant['latitude']
+    self.lon = restaurant['longitude'] -->
+
+</ul>
